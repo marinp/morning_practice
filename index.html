@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+    <script>
+      $(document).ready(function(){
+        $('img').nepnyan();
+        //$('#hoge').nepnyan();
+      });
+      $(function(){
+        //$('img').center();
+      });
+
+      /*
+        plugins
+      */
+      (function($){
+          $.fn.nepnyan=function(){
+              /* 現在の要素をelementに格納 */
+              var element=this;
+              /* 現在の要素が読込まれた時にCSSを変更 */
+              $(element).load(function(){
+                  changeCSS();
+                  var speed = 3000;
+                  cloudMove();
+                  setInterval(cloudMove,6000);
+                  /* ウィンドウがリサイズされた時にもCSSを変更 */
+                  $(window).bind("resize", function(){
+                      changeCSS();
+                  });
+                  /* ウィンドウがスクロールされた時にもCSSを変更*/
+                  $(window).scroll(function(){
+                      changeCSS();
+                  });
+                  /* CSSを変更 */
+                  function changeCSS(){
+                      /* 要素の幅・高さを取得 */
+                      var imageWidth = $(element).width();
+                      var imageHeight = $(element).height();
+                      /* ウィンドウの幅・高さを取得 */
+                      var windowWidth = $(window).width();
+                      //var windowHeight = $(window).height();
+                      var windowHeight = window.innerHeight;
+                      var windowTop = $(document).scrollTop();
+                      /* 要素のスタイルを変更（要素を常に画面中央に配置） */
+                      $(element).css({
+                          "position" : "absolute",
+                          "left" : 0 - imageWidth,
+                          "top" : windowHeight /2 - imageHeight / 2 + windowTop
+                      });
+                  };
+                  function cloudMove(){
+                  var imageWidth = $(element).width();
+                  element
+                    .animate({'marginLeft':imageWidth/2}, speed)
+                    .animate({'marginLeft':'0'}, speed);
+                  };
+              });
+          };
+      })(jQuery);
+      /*
+      (function($){
+        $.fn.nepnyan = function(){
+          this.animate({
+            'marginLeft':'100px'
+          });
+        };
+      }(jQuery));
+      */
+
+    </script>
+  </head>
+  <body>
+    <div id ="hoge">
+      <img src = "http://www.city.hikone.shiga.jp/kikakushinkobu/400ht/img/hikonyan_seiza.jpg"alt="hikonyan">
+    </div>
+    <div style= "height:4000px;"></div>
+  </body>
+</html>
+
