@@ -18,44 +18,42 @@
           $.fn.nepnyan=function(){
               /* 現在の要素をelementに格納 */
               var element=this;
-              /* 現在の要素が読込まれた時にCSSを変更 */
-              $(element).load(function(){
+              changeCSS();
+              var speed = 3000;
+              cloudMove();
+              setInterval(cloudMove,6000);
+              /* ウィンドウがリサイズされた時にもCSSを変更 */
+              $(window).bind("resize", function(){
                   changeCSS();
-                  var speed = 3000;
-                  cloudMove();
-                  setInterval(cloudMove,6000);
-                  /* ウィンドウがリサイズされた時にもCSSを変更 */
-                  $(window).bind("resize", function(){
-                      changeCSS();
-                  });
-                  /* ウィンドウがスクロールされた時にもCSSを変更*/
-                  $(window).scroll(function(){
-                      changeCSS();
-                  });
-                  /* CSSを変更 */
-                  function changeCSS(){
-                      /* 要素の幅・高さを取得 */
-                      var imageWidth = $(element).width();
-                      var imageHeight = $(element).height();
-                      /* ウィンドウの幅・高さを取得 */
-                      var windowWidth = $(window).width();
-                      //var windowHeight = $(window).height();
-                      var windowHeight = window.innerHeight;
-                      var windowTop = $(document).scrollTop();
-                      /* 要素のスタイルを変更（要素を常に画面中央に配置） */
-                      $(element).css({
-                          "position" : "absolute",
-                          "left" : 0 - imageWidth,
-                          "top" : windowHeight /2 - imageHeight / 2 + windowTop
-                      });
-                  };
-                  function cloudMove(){
-                  var imageWidth = $(element).width();
-                  element
-                    .animate({'marginLeft':imageWidth/2}, speed)
-                    .animate({'marginLeft':'0'}, speed);
-                  };
               });
+              /* ウィンドウがスクロールされた時にもCSSを変更*/
+              $(window).scroll(function(){
+                  changeCSS();
+              });
+              /* CSSを変更 */
+              function changeCSS(){
+                  /* 要素の幅・高さを取得 */
+                  var imageWidth = $(element).width();
+                  var imageHeight = $(element).height();
+                  /* ウィンドウの幅・高さを取得 */
+                  var windowWidth = $(window).width();
+                  var windowHeight = window.innerHeight;
+                  var windowTop = $(document).scrollTop();
+                  /* 要素のスタイルを変更（要素を常に画面中央に配置） */
+                  $(element).css({
+                      "position" : "absolute",
+                      "left" : 0 - imageWidth,
+                      "top" : windowHeight /2 - imageHeight / 2 + windowTop
+                  });
+              };
+              function cloudMove(){
+              var imageWidth = $(element).width();
+              element
+                .animate({'marginLeft':imageWidth*1/3},{'duration':speed, 'easing':'swing'})
+                .animate({'marginLeft':imageWidth*2/5},{'duration':speed/2, 'easing':'linear'})
+                .animate({'marginLeft':imageWidth*6/15},{'duration':speed/3, 'easing':'swing'})
+                .animate({'marginLeft':'0'}, speed/50);
+              };
           };
       })(jQuery);
       /*
