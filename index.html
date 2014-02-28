@@ -4,8 +4,8 @@
 
     <script>
       $(document).ready(function(){
-        $('img').nepnyan();
-        //$('#hoge').nepnyan();
+        //$('img').nepnyan();
+        $('#hoge').nepnyan();
       });
       $(function(){
         //$('img').center();
@@ -15,26 +15,44 @@
         plugins
       */
       (function($){
-          $.fn.nepnyan=function(){
+          $.fn.nepnyan=function(options){
+              var opt = $.extend({
+                speed: 1000,
+                pause: 6000,
+                /* 画像の表示% 0~1の間で指定*/
+                first_show: 0.4,
+                second_show: 0.5,
+
+                LorR : "left",
+              }, options);
+
               /* 現在の要素をelementに格納 */
-              var element=this;
+              var element = this;
               changeCSS();
-              var speed = 3000;
               cloudMove();
-              setInterval(cloudMove,6000);
+              setInterval(cloudMove,opt.pause);
               /* ウィンドウがリサイズされた時にもCSSを変更 */
               $(window).bind("resize", function(){
                   changeCSS();
               });
               /* ウィンドウがスクロールされた時にもCSSを変更*/
               $(window).scroll(function(){
-                  changeCSS();
+                changeCSS();
               });
+
+              element.hover(function(event){
+                element.stop(true,false).animate(
+                {'marginLeft':'0'},
+                {'duration':opt.speed/10});
+                //element.stop();
+                //element.animate({'marginLeft':'0'}, {'duration':speed/10});
+              });
+
               /* CSSを変更 */
               function changeCSS(){
                   /* 要素の幅・高さを取得 */
-                  var imageWidth = $(element).width();
-                  var imageHeight = $(element).height();
+                  var imageWidth = element.width();
+                  var imageHeight = element.height();
                   /* ウィンドウの幅・高さを取得 */
                   var windowWidth = $(window).width();
                   var windowHeight = window.innerHeight;
@@ -47,12 +65,12 @@
                   });
               };
               function cloudMove(){
-              var imageWidth = $(element).width();
+              var imageWidth = element.width();
               element
-                .animate({'marginLeft':imageWidth*1/3},{'duration':speed, 'easing':'swing'})
-                .animate({'marginLeft':imageWidth*2/5},{'duration':speed/2, 'easing':'linear'})
-                .animate({'marginLeft':imageWidth*6/15},{'duration':speed/3, 'easing':'swing'})
-                .animate({'marginLeft':'0'}, speed/50);
+                .animate({'marginLeft':imageWidth*opt.first_show},{'duration':opt.speed, 'easing':'swing'})
+                .animate({'marginLeft':imageWidth*opt.first_show},{'duration':opt.speed, 'easing':'swing'})
+                .animate({'marginLeft':imageWidth*opt.second_show},{'duration':opt.speed*1.5, 'easing':'swing'})
+                //.animate({'marginLeft':'0'}, {'duration':speed/10});
               };
           };
       })(jQuery);
@@ -60,7 +78,7 @@
       (function($){
         $.fn.nepnyan = function(){
           this.animate({
-            'marginLeft':'100px'
+            ''marginLeft'':'100px'
           });
         };
       }(jQuery));
@@ -75,4 +93,3 @@
     <div style= "height:4000px;"></div>
   </body>
 </html>
-
