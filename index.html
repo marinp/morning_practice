@@ -4,8 +4,8 @@
 
     <script>
       $(document).ready(function(){
-        $('img').nepnyan();
-        //$('#hoge').nepnyan();
+        //$('img').nepnyan();
+        $('#hoge').nepnyan();
       });
       $(function(){
         //$('img').center();
@@ -15,54 +15,70 @@
         plugins
       */
       (function($){
-          $.fn.nepnyan=function(){
+          $.fn.nepnyan=function(options){
+              var opt = $.extend({
+                speed: 1000,
+                pause: 6000,
+                /* 画像の表示% 0~1の間で指定*/
+                first_show: 0.4,
+                second_show: 0.5,
+
+                LorR : "left",
+              }, options);
+
               /* 現在の要素をelementに格納 */
-              var element=this;
-              /* 現在の要素が読込まれた時にCSSを変更 */
-              $(element).load(function(){
+              var element = this;
+              changeCSS();
+              cloudMove();
+              setInterval(cloudMove,opt.pause);
+              /* ウィンドウがリサイズされた時にもCSSを変更 */
+              $(window).bind("resize", function(){
                   changeCSS();
-                  var speed = 3000;
-                  cloudMove();
-                  setInterval(cloudMove,6000);
-                  /* ウィンドウがリサイズされた時にもCSSを変更 */
-                  $(window).bind("resize", function(){
-                      changeCSS();
-                  });
-                  /* ウィンドウがスクロールされた時にもCSSを変更*/
-                  $(window).scroll(function(){
-                      changeCSS();
-                  });
-                  /* CSSを変更 */
-                  function changeCSS(){
-                      /* 要素の幅・高さを取得 */
-                      var imageWidth = $(element).width();
-                      var imageHeight = $(element).height();
-                      /* ウィンドウの幅・高さを取得 */
-                      var windowWidth = $(window).width();
-                      //var windowHeight = $(window).height();
-                      var windowHeight = window.innerHeight;
-                      var windowTop = $(document).scrollTop();
-                      /* 要素のスタイルを変更（要素を常に画面中央に配置） */
-                      $(element).css({
-                          "position" : "absolute",
-                          "left" : 0 - imageWidth,
-                          "top" : windowHeight /2 - imageHeight / 2 + windowTop
-                      });
-                  };
-                  function cloudMove(){
-                  var imageWidth = $(element).width();
-                  element
-                    .animate({'marginLeft':imageWidth/2}, speed)
-                    .animate({'marginLeft':'0'}, speed);
-                  };
               });
+              /* ウィンドウがスクロールされた時にもCSSを変更*/
+              $(window).scroll(function(){
+                changeCSS();
+              });
+
+              element.hover(function(event){
+                element.stop(true,false).animate(
+                {'marginLeft':'0'},
+                {'duration':opt.speed/10});
+                //element.stop();
+                //element.animate({'marginLeft':'0'}, {'duration':speed/10});
+              });
+
+              /* CSSを変更 */
+              function changeCSS(){
+                  /* 要素の幅・高さを取得 */
+                  var imageWidth = element.width();
+                  var imageHeight = element.height();
+                  /* ウィンドウの幅・高さを取得 */
+                  var windowWidth = $(window).width();
+                  var windowHeight = window.innerHeight;
+                  var windowTop = $(document).scrollTop();
+                  /* 要素のスタイルを変更（要素を常に画面中央に配置） */
+                  $(element).css({
+                      "position" : "absolute",
+                      "left" : 0 - imageWidth,
+                      "top" : windowHeight /2 - imageHeight / 2 + windowTop
+                  });
+              };
+              function cloudMove(){
+              var imageWidth = element.width();
+              element
+                .animate({'marginLeft':imageWidth*opt.first_show},{'duration':opt.speed, 'easing':'swing'})
+                .animate({'marginLeft':imageWidth*opt.first_show},{'duration':opt.speed, 'easing':'swing'})
+                .animate({'marginLeft':imageWidth*opt.second_show},{'duration':opt.speed*1.5, 'easing':'swing'})
+                //.animate({'marginLeft':'0'}, {'duration':speed/10});
+              };
           };
       })(jQuery);
       /*
       (function($){
         $.fn.nepnyan = function(){
           this.animate({
-            'marginLeft':'100px'
+            ''marginLeft'':'100px'
           });
         };
       }(jQuery));
@@ -77,4 +93,3 @@
     <div style= "height:4000px;"></div>
   </body>
 </html>
-
