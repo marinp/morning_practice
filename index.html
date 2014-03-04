@@ -24,7 +24,25 @@
                 second_show: 0.5,
 
                 LorR : "left",
+                marginLorR: "marginLeft"
               }, options);
+
+              if(opt.LorR == "right"){
+                opt.marginLorR = "marginRight";
+              }
+
+              /*MouseOver時のimgのcss指定*/
+              var mouseOverCss = {};
+              mouseOverCss[opt.marginLorR] = '0';
+
+              /*通常のimgの動きのcss指定*/
+              var imageWidth = $(element).width();
+              var normalMoveCss = [];
+              normalMoveCss['first_pos'] = {}
+              normalMoveCss['first_pos'][opt.marginLorR] = imageWidth*opt.first_show;
+              
+              normalMoveCss['second_pos'] = {}
+              normalMoveCss['second_pos'][opt.marginLorR] = imageWidth*opt.second_show;
 
               /* 現在の要素をelementに格納 */
               var element = this;
@@ -42,7 +60,7 @@
 
               element.hover(function(event){
                 element.stop(true,false).animate(
-                {'marginLeft':'0'},
+                mouseOverCss,
                 {'duration':opt.speed/10});
                 //element.stop();
                 //element.animate({'marginLeft':'0'}, {'duration':speed/10});
@@ -67,9 +85,12 @@
               function cloudMove(){
               var imageWidth = element.width();
               element
-                .animate({'marginLeft':imageWidth*opt.first_show},{'duration':opt.speed, 'easing':'swing'})
-                .animate({'marginLeft':imageWidth*opt.first_show},{'duration':opt.speed, 'easing':'swing'})
-                .animate({'marginLeft':imageWidth*opt.second_show},{'duration':opt.speed*1.5, 'easing':'swing'})
+                .animate(normalMoveCss['first_pos'] ,{'duration':opt.speed, 'easing':'swing'})
+                .animate(normalMoveCss['first_pos'] ,{'duration':opt.speed, 'easing':'swing'})
+                .animate(normalMoveCss['second_pos'] ,{'duration':opt.speed*1.5, 'easing':'swing'})
+                //.animate({'marginLeft':imageWidth*opt.first_show},{'duration':opt.speed, 'easing':'swing'})
+                //.animate({'marginLeft':imageWidth*opt.first_show},{'duration':opt.speed, 'easing':'swing'})
+                //.animate({'marginLeft':imageWidth*opt.second_show},{'duration':opt.speed*1.5, 'easing':'swing'})
                 //.animate({'marginLeft':'0'}, {'duration':speed/10});
               };
           };
