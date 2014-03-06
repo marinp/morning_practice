@@ -26,7 +26,17 @@
                 LorR : "left",
                 marginLorR: "marginLeft"
               }, options);
+              
+              //var Nepnyan = {
+              //  width: $(window).width(),
+              //  getCurrentWidth: function(){
+              //    return this.width;
+              //  }
+              //}
 
+              /* 現在の要素をelementに格納 */
+              var element = this;
+              //alert(Nepnyan.getCurrentWidth();
               if(opt.LorR == "right"){
                 opt.marginLorR = "marginRight";
               }
@@ -36,7 +46,7 @@
               mouseOverCss[opt.marginLorR] = '0';
 
               /*通常のimgの動きのcss指定*/
-              var imageWidth = $(element).width();
+              var imageWidth = element.width();
               var normalMoveCss = [];
               normalMoveCss['first_pos'] = {}
               normalMoveCss['first_pos'][opt.marginLorR] = imageWidth*opt.first_show;
@@ -44,8 +54,6 @@
               normalMoveCss['second_pos'] = {}
               normalMoveCss['second_pos'][opt.marginLorR] = imageWidth*opt.second_show;
 
-              /* 現在の要素をelementに格納 */
-              var element = this;
               changeCSS();
               cloudMove();
               setInterval(cloudMove,opt.pause);
