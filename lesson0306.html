@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+    <script>
+    $(document).ready(function(){
+
+    $('.box').each(function(){
+      var self - $(this);
+      var startWidth = self.width();
+      var endWidth = start Width - 70;
+      setInterval(function(){
+        self.animate({left: endWidth}, 1000, function(){
+          self.animate({left: startWidth}, 100);
+        });
+      }, 1000);
+    });
+  }
+

@@ -5,7 +5,7 @@
     <script>
       $(document).ready(function(){
         //$('#hoge').nepnyan({LorR:"right"});
-        $('#hoge').nepnyan({LorR:"left",first_show:0.3, second_show:"660px"});
+        $('#hoge').nepnyan({LorR:"left",first_show:"350px", second_show:"660px"});
       });
 
       /*
@@ -29,7 +29,7 @@
 
               var imageWidth = element.width();
               var imageHeight = element.height();
-
+              
               if(opt.LorR == "right"){
                 opt.marginLorR = "marginRight";
               }
@@ -54,7 +54,8 @@
                 second_show_px = opt.second_show*imageWidth;
               }
               chiramiMoveCss['first_pos'] = {}
-              chiramiMoveCss['first_pos'][opt.marginLorR] = first_show_px;
+              //chiramiMoveCss['first_pos'][opt.marginLorR] = imageWidth*opt.first_show;
+              chiramiMoveCss['first_pos'][opt.marginLorR] = first_show_px; 
               chiramiMoveCss['second_pos'] = {}
               chiramiMoveCss['second_pos'][opt.marginLorR] = second_show_px;
 
